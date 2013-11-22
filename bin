@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+var path = require("path");
+var program = require("commander");
+var source = require("./index");
+
+program
+    .option("--include <list>", "Only include the specified types", parseList)
+    .option("--exclude <list>", "Exclude the specified types", parseList)
+    .parse(process.argv);
+
+var dir = path.resolve(process.cwd(), program.args[0]);
+
+console.log(source(dir, getProps()).join(" "));
+
+function parseList(input) {
+    return input.split(",");
+}
+
+function getProps() {
+    if (program.include) {
+        return source.props.filter(function (prop) {
+            return program.include.indexOf(prop) > -1;
+        });
+    } else if (program.exclude) {
+        return source.props.filter(function (prop) {
+            return program.exclude.indexOf(prop) === -1;
+        });
+    } else {
+        return source.props;
+    }
+}

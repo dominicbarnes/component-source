@@ -1,0 +1,15 @@
+{
+  "name": "component-source",
+  "version": "0.0.0",
+  "description": "Print a component's source files",
+  "author": "Dominic Barnes <dominic@dbarnes.info>",
+  "keywords": [ "component", "source", "files", "build" ],
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "commander": "~2.1.0"
+  },
+  "bin": {
+    "component-source": "./bin"
+  }
+}
