@@ -1,6 +1,6 @@
 {
   "name": "component-source",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Print a component's source files",
   "author": "Dominic Barnes <dominic@dbarnes.info>",
   "keywords": [ "component", "source", "files", "build" ],

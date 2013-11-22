@@ -1,17 +1,43 @@
 #!/usr/bin/env node
 
+// module dependencies
 var path = require("path");
 var program = require("commander");
 var source = require("./index");
+var pkg = require("./package.json");
 
+// configure the arguments parser
 program
-    .option("--include <list>", "Only include the specified types", parseList)
-    .option("--exclude <list>", "Exclude the specified types", parseList)
-    .parse(process.argv);
+    .version(pkg.version)
+    .usage("[options] [dir]")
+    .option("-i, --include <list>", "Include only the specified types (comma-separated)", parseList)
+    .option("-e, --exclude <list>", "Exclude the specified types (comma-separated)", parseList);
 
-var dir = path.resolve(process.cwd(), program.args[0]);
+program.on("--help", function () {
+    console.log("  Examples:");
+    console.log();
+    console.log("    Only show scripts and stylesheets");
+    console.log("    $ component source --include scripts,styles");
+    console.log();
+    console.log("    Exclude images, fonts and files");
+    console.log("    $ component source --exclude images,fonts,files");
+    console.log();
+    console.log("    Examine a component directory other than pwd");
+    console.log("    $ component source path/to/component/");
+    console.log();
+});
 
+// run the parse after the `--help` event handler is registered
+program.parse(process.argv);
+
+// determine which directory to search for a component.json in
+var dir = path.resolve(process.cwd(), program.args[0] || "");
+
+// output to stdout
 console.log(source(dir, getProps()).join(" "));
+
+
+// private helpers
 
 function parseList(input) {
     return input.split(",");
